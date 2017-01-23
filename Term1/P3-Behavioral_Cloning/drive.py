@@ -28,8 +28,8 @@ prev_image_array = None
 
 steering_angle_ls = None
 
-@sio.on('telemetry')
 
+@sio.on('telemetry')
 def telemetry(sid, data):
     # The current steering angle of the car
     steering_angle = data["steering_angle"]
@@ -43,15 +43,11 @@ def telemetry(sid, data):
     image_array = np.asarray(image)
     transformed_image_array = image_array[None, :, :, :]
     
-    # preprocessing
+    # pre-processing
     img = transformed_image_array[0]
-    img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)[:,:,1]
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)[:, :, 1]
     img = cv2.resize(img, (32, 16)).reshape(1, 16, 32, 1)
 
-
-    # plt.imshow(np.squeeze(img), cmap='gray')
-   
-    
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
     steering_angle = float(model.predict(img, batch_size=1))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
@@ -68,18 +64,17 @@ def connect(sid, environ):
 
 def send_control(steering_angle, throttle):
     sio.emit("steer", data={
-    'steering_angle': steering_angle.__str__(),
-    'throttle': throttle.__str__()
-    }, skip_sid=True)
+        'steering_angle': steering_angle.__str__(),
+        'throttle': throttle.__str__()
+        }, skip_sid=True)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Remote Driving')
     parser.add_argument('model', type=str,
-    help='Path to model definition json. Model weights should be on the same path.')
+                        help='Path to model definition json. Model weights should be on the same path.')
     args = parser.parse_args()
 
-    
     with open(args.model, 'r') as jfile:
         # NOTE: if you saved the file by calling json.dump(model.to_json(), ...)
         # then you will have to call:
@@ -88,7 +83,6 @@ if __name__ == '__main__':
         #
         # instead.
         model = model_from_json(jfile.read())
-
 
     model.compile("adam", "mse")
     weights_file = args.model.replace('json', 'h5')
