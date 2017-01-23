@@ -6,9 +6,9 @@
 
 This project is to train a CNN model to autonomously drive a car in the simulator using behavioral cloning method. 
 
-The simulator is provided by Udacity, which has two playing modes: training mode and autonomous mode. Training mode is to drive the car by user and collecting the driving behavioral data at the same time. Autonomous mode is to autonomously drive the car using the CNN model and learned parameters.
+The simulator is provided by Udacity, which has two playing modes: training mode and autonomous mode. Training mode is to drive the car by user and collecting the driving behavioral data at the same time. Autonomous mode is to autonomously drive the car using the created CNN model and learned parameters.
 
-![](images/simulator.png)
+![](figures/simulator.png)
 
 
 
