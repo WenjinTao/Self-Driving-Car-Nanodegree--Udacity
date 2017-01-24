@@ -127,8 +127,11 @@ model.add(Dense(1))
 | dense_1 (Dense)                 | (None, 1)         | 81      | flatten_1[0][0]       |
 
 Total params: 713
+
 Trainable params: 713
+
 Non-trainable params: 0
+
 
 ### 4. Training
 
