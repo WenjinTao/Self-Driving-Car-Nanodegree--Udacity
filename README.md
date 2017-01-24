@@ -2,7 +2,7 @@
 
 **Syllabus**: 
 - Term 1
-  - [x] P1: Lane   
+  - [x] P1: [Finding Lane Lines](https://github.com/WenjinTao/Self-Driving-Car-Nanodegree--Udacity/blob/master/Term1/P1-Finding_Lane_Lines/P1-Finding_Lane_Lines.ipynb)   
   - [x] P2: Traffic Sign
   - [x] P3: Behavior Clone
   - [ ] P4: 
