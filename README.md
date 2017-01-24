@@ -1,6 +1,6 @@
 # Self_Driving_Car_Nanodegree-Udacity
 
-**Syllabus**: 
+**Projects**: 
 - Term 1
   - [x] P1: [Finding Lane Lines](Term1/P1-Finding_Lane_Lines/P1-Finding_Lane_Lines.ipynb)   
   - [x] P2: [Traffic Sign Classifier](Term1/P2-Traffic_Sign_Classifier/Traffic_Sign_Classifier-WenjinTao.ipynb)
