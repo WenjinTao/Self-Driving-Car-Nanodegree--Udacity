@@ -1,4 +1,4 @@
-# Self-Driving Car Nano-degree
+# Self-Driving Car Nanodegree
 
 ## Project 3: Behavioral Cloning
 
@@ -161,8 +161,8 @@ After training, this model successfully drove the car on both of the tracks by i
 |	|	+-- center_2016_12_01_13_30_48_287.jpg
 |	|	...
 |	+-- driving_log.csv
-+-- X.data.npy - The training data
-+-- y.data.npy - The training data
++-- X.data.npy - The training data saved from data.py
++-- y.data.npy - The training data saved from data.py
 +-- model.py - The script used to create and train the model.
 +-- drive.py - The script to drive the car.
 +-- model.json - The model architecture saved from Keras.
