@@ -2,9 +2,9 @@
 
 **Syllabus**: 
 - Term 1
-  - [x] P1: [Finding Lane Lines](https://github.com/WenjinTao/Self-Driving-Car-Nanodegree--Udacity/blob/master/Term1/P1-Finding_Lane_Lines/P1-Finding_Lane_Lines.ipynb)   
-  - [x] P2: Traffic Sign
-  - [x] P3: Behavior Clone
+  - [x] P1: [Finding Lane Lines](Term1/P1-Finding_Lane_Lines/P1-Finding_Lane_Lines.ipynb)   
+  - [x] P2: [Traffic Sign Classifier](Term1/P2-Traffic_Sign_Classifier/Traffic_Sign_Classifier-WenjinTao.ipynb)
+  - [x] P3: [Behavior Cloning]()
   - [ ] P4: 
 - Term 2
   - [ ] P1   
