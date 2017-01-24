@@ -1,4 +1,4 @@
-# Self_Driving_Car_Nanodegree-Udacity
+# Self-Driving Car Nanodegree--Udacity
 
 **Projects**: 
 - Term 1
