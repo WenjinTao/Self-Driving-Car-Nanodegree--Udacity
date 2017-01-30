@@ -37,17 +37,19 @@ The processed data was saved as 'X.data.npy' and 'y.data.npy' for the future tra
 
 ### 3. Model Architecture Design
 
-**>>Please discuss what kind of reference have you been studying for. (You only listed the NVIDIA and Comma.ai model here.)**
+In order to build a CNN architecture to realize the autonomous driving, first I studied the NVDIA and Comma.ai models. Both of them have been validated in the real driving situation, so it is believed that they have the ability to drive the car in the simulator as long as we have enough organized data and the models are properly trained. The details of NVDIA and Comma.ai CNN architectures are listed in the following sections 3.1 and 3.2. 
 
-As reference, I list the NVDIA and Comma.ai CNN architectures in the following sections. After that, the architecture I used for this project will be explained in 3.3. 
+Reviewing these two models, NVIDIA model has _**~252k**_ parameters while Comma.ai has _**~6,622k**_ parameters waiting for optimization. I found that both of them have too many parameters and would be slow for training. Given that the environment in simulator is much simpler than the real environment, I think some lightweight CNN architectures would be powerful enough to finish our goal.
 
-After 
+As explained in the previous section, the original image data was resized to 16x32, which is just of the similar complexity with the digits data we played in [Project 2](https://github.com/WenjinTao/Self-Driving-Car-Nanodegree--Udacity/blob/master/Term1/P2-Traffic_Sign_Classifier/Traffic_Sign_Classifier-WenjinTao.ipynb) whose data shape is 32x32. Due to the similarity of their complexities, I decided to build up an architecture that is similar with LeNet used in Project 2. 
 
-**>>Please discuss how did you decide the number and type of layers.**
+As discussed in our classroom, the multilayer CNN trys to capture features and learn the unseen patterns on different levels.
 
-**>>Please discuss why this model is suitable for this question.**
+> The first layer is the lowest level in the hierarchy, where the CNN generally classifies small parts of the image into simple shapes like horizontal and vertical lines and simple blobs of colors. The subsequent layers tend to be higher levels in the hierarchy and generally classify more complex ideas like shapes (combinations of lines), and eventually full objects like dogs.
 
+The input data is a 16x32 image, which contains some low-level features like lines and curves, and some higher-level features like curbs and pavements. Therefore, I used  two convolutional layers in my CNN model. 1 maxpooling and 1 dropout layer were implemented between those two convolutional layers to pick the significant features and avoid overfitting, respectively. The data were normalized before feeding into this model. After the second convolutional layer, the dataflow was flattened to 80 neurons, and followed by a dense layer.
 
+The details of the architecture I used for this project are explained in 3.3. 
 
 #### 3.1 NVIDIA Model
 
@@ -77,6 +79,10 @@ model.add(Dense(50, activation='relu'))
 model.add(Dense(10, activation='relu'))
 model.add(Dense(1))
 ````
+**Model.summary:**
+
+![NVIDIA](figures/NVIDIA.png)
+
 #### 3.2 Comma.ai Model
 
 The Comma.ai model can be found at [train_steering_model ](https://github.com/commaai/research/blob/master/train_steering_model.py).  
@@ -85,7 +91,7 @@ The Comma.ai model can be found at [train_steering_model ](https://github.com/co
 # Comma.ai model
 model = Sequential()
 input_shape = (160, 320, 3)
-model.add(Lambda(lambda x: x/127.5 - 1., input_shape=input_shape)
+model.add(Lambda(lambda x: x/127.5 - 1., input_shape=input_shape))
 model.add(Convolution2D(16, 8, 8, subsample=(4, 4), border_mode="same"))
 model.add(ELU())
 model.add(Convolution2D(32, 5, 5, subsample=(2, 2), border_mode="same"))
@@ -99,6 +105,10 @@ model.add(Dropout(.5))
 model.add(ELU())
 model.add(Dense(1))
 ````
+
+**Model.summary:**
+
+![Comma.ai](figures/Commaai.png)
 
 #### 3.3 Model Used in this Project
 
