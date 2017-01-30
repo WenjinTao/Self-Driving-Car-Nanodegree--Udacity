@@ -9,7 +9,7 @@ This project is to train a CNN model to autonomously drive a car in the simulato
 The simulator is provided by Udacity, which has two playing modes: training mode and autonomous mode. Training mode is to drive the car by user and collect the driving behavioral data at the same time. Autonomous mode is to autonomously drive the car using the created CNN model and learned parameters.
 
 ![](figures/simulator.PNG)
-### 2. Data
+### 2. Data Collecting & Preprocessing
 
 #### 2.1 Collecting Training Data
 
@@ -35,9 +35,19 @@ Multiple cameras were used to recover the car's direction from being off-center.
 The processed data was saved as 'X.data.npy' and 'y.data.npy' for the future training process.
 
 
-### 3. Modeling
+### 3. Model Architecture Design
 
-As reference, I list the NVDIA and Comma.ai CNN architectures in the following sections. After that, the architecture I used for this project will be explained in 3.3.
+**>>Please discuss what kind of reference have you been studying for. (You only listed the NVIDIA and Comma.ai model here.)**
+
+As reference, I list the NVDIA and Comma.ai CNN architectures in the following sections. After that, the architecture I used for this project will be explained in 3.3. 
+
+After 
+
+**>>Please discuss how did you decide the number and type of layers.**
+
+**>>Please discuss why this model is suitable for this question.**
+
+
 
 #### 3.1 NVIDIA Model
 
@@ -92,7 +102,11 @@ model.add(Dense(1))
 
 #### 3.3 Model Used in this Project
 
-The model I used in this project has a relatively lightweight architecture. It has 7 layers as listed below:
+The model I used in this project has a relatively lightweight architecture. As shown in the following figure, it has 7 layers which are listed below as well:
+
+![](figures/CNN.png)
+
+
 
 1. Normalization layer
 2. 1st Convolutional layer
@@ -133,9 +147,27 @@ Trainable params: 713
 Non-trainable params: 0
 
 
-### 4. Training
+### 4. Model Training
 
-The model is trained to minimize the mean-squared error using 'adam' optimizer, with a batch size of 256 and epoch of 15. 20% of the data was used for validation.
+**Optimizer: AdamOptimizer**
+
+As discussed in [Project 2](https://github.com/WenjinTao/Self-Driving-Car-Nanodegree--Udacity/blob/master/Term1/P2-Traffic_Sign_Classifier/Traffic_Sign_Classifier-WenjinTao.ipynb), the Optimizer is to calculate gradients for a loss function and apply them to different variables of a model. _**Adaptive Moment Estimation (Adam)**_ method allows us to use larger step sizes (learning rates) without fine tuning. It works well in practice and compares favorably to other adaptive learning method algorithms. Then I keep using 'Adam' as the optimizer in this project.
+
+**Batch size**
+
+As explained in [Project 2](https://github.com/WenjinTao/Self-Driving-Car-Nanodegree--Udacity/blob/master/Term1/P2-Traffic_Sign_Classifier/Traffic_Sign_Classifier-WenjinTao.ipynb):
+
+> Batch size determines how many examples you look at before making a weight update. The lower it is, the noisier the training signal is going to be, the higher it is, the longer it will take to compute the gradient for each step.
+
+This time I specified the batch size as _**256**_ instead of 128 used in Project 2 to make the training signal less noisy. After some trial and errors, I also got the acceptable converging results.
+
+**Epochs**
+
+The number of Epochs was chosen from the range of 10~50. After some experiments, _**15**_ was selected because increasing the Epochs times didn't improve the training performance from then, and the evaluation performance on the two tracks was already good enough.
+
+**To summarize**, the model was trained to minimize the mean-squared error using 'adam' optimizer, with a batch size of 256 and epoch of 15. 20% of the data was used for validation.
+
+The code is listed here:
 
 ````python
 model.compile(optimizer='adam', loss='mean_squared_error')
@@ -146,7 +178,9 @@ history = model.fit(X, y, batch_size=256, nb_epoch=15, verbose=1, validation_spl
 
 This model was validated by applying the learned parameters onto the validation dataset. After many experiments, loss~0.025 is an acceptable criterion.
 
-Finally the model was evaluated on both of the tracks in the simulator.
+Finally the model was evaluated on both of the tracks in the simulator to check whether the car is able to navigate correctly. The specification is listed here :
+
+> No tire may leave the drivable portion of the track surface. The car may not pop up onto ledges or roll over any surfaces that would otherwise be considered unsafe (if humans were in the vehicle).[(From rubrics)](https://review.udacity.com/#!/rubrics/432/view)
 
 ### 5. Summary
 
@@ -200,3 +234,7 @@ Track 2:
 * cv2
 
 * To be added if needed...
+
+#### 6.4 Extra Reference
+
+[Practical Recommendations for Gradient-Based Training of Deep Architectures](https://arxiv.org/pdf/1206.5533.pdf)
