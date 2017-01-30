@@ -81,7 +81,7 @@ model.add(Dense(1))
 ````
 **Model.summary:**
 
-![NVIDIA](figures/NVIDIA.png)
+![NVIDIA](figures/NVIDIA.PNG)
 
 #### 3.2 Comma.ai Model
 
@@ -108,7 +108,7 @@ model.add(Dense(1))
 
 **Model.summary:**
 
-![Comma.ai](figures/Commaai.png)
+![Comma.ai](figures/Commaai.PNG)
 
 #### 3.3 Model Used in this Project
 
