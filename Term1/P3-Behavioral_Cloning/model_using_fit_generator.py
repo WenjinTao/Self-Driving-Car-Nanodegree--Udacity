@@ -25,7 +25,7 @@ def img_prep(img):
 
 def X_prep(driving_log):
     """
-    Organize the names of the center, left and right cameras into one list
+    Organize the names of the center, left and right cameras into one list for being used in the generator
     :param driving_log: The driving log loaded from file
     :return: X_names
     """
@@ -83,13 +83,15 @@ def batch_generator(X_names, y, batch_size=256):
         X_batch = np.zeros([batch_size, 16, 32, 1])
         y_batch = np.zeros([batch_size, 1])
 
-        for i in range(128):
+        # Using batch_size/2 data first, then double it by horizontally flipping to form the full batch size
+        for i in range(int(batch_size/2)):
             random_choice = int(np.random.choice(len(X_names),1))
             img_orig = plt.imread('data/'+X_names[random_choice])
             img = img_prep(img_orig)
 
             X_batch[2*i] = np.expand_dims(img, 3)
             y_batch[2*i] = y[random_choice]
+            # Add the horizontally flipped data into this patch
             X_batch[2*i+1] = np.expand_dims(img[:, ::-1], 3)
             y_batch[2*i+1] = -y[random_choice]
 
@@ -101,14 +103,13 @@ if __name__ == '__main__':
     # Load the driving log data
     driving_log = pd.read_csv("data/driving_log.csv")
 
-    # Load the steering angle
-    y = driving_log['steering'].values
-
     # Prepare the data from central/ left/ right cameras
     X_names = X_prep(driving_log)
+    # Load and Prepare the steering angles
+    y = driving_log['steering'].values
     y = y_prep(y, delta=.25)
 
-    # Shuffling
+    # Shuffling for splitting
     X_names, y = shuffle(X_names, y)
 
     # Splitting
@@ -121,22 +122,18 @@ if __name__ == '__main__':
 
     # Train the model
     model.compile(optimizer='adam', loss='mean_squared_error')
-
     # Using generator
     history = model.fit_generator(generator=batch_generator(X_train_names, y_train, batch_size=256),
                                   samples_per_epoch=38400,
-                                  nb_epoch=1,
+                                  nb_epoch=15,
                                   verbose=1,
                                   validation_data=batch_generator(X_validation_names, y_validation, batch_size=256),
                                   nb_val_samples=9728)
 
-    # Without using generator:
-    # history = model.fit(X, y, batch_size=256, nb_epoch=15, verbose=1, validation_split=0.2)
-
     # Save the model
     model_json = model.to_json()
-    with open("model_test.json", "w") as json_file:
+    with open("model.json", "w") as json_file:
         json_file.write(model_json)
 
-    model.save_weights("model_test.h5")
+    model.save_weights("model.h5")
     print("Saved model to disk")

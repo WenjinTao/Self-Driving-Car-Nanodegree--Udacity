@@ -1,3 +1,5 @@
+
+
 # Self-Driving Car Nanodegree
 
 ## Project 3: Behavioral Cloning
@@ -159,6 +161,10 @@ Non-trainable params: 0
 
 ### 4. Model Training
 
+#### 4.1 Training in the memory using `model.fit()`
+
+Firstly, since the size of training data is relatively small, all the data was read in memory and trained using `model.fit()`. Some hyperparameters selection are discussed below.
+
 **Optimizer: AdamOptimizer**
 
 As discussed in [Project 2](https://github.com/WenjinTao/Self-Driving-Car-Nanodegree--Udacity/blob/master/Term1/P2-Traffic_Sign_Classifier/Traffic_Sign_Classifier-WenjinTao.ipynb), the Optimizer is to calculate gradients for a loss function and apply them to different variables of a model. _**Adaptive Moment Estimation (Adam)**_ method allows us to use larger step sizes (learning rates) without fine tuning. It works well in practice and compares favorably to other adaptive learning method algorithms. Then I keep using 'Adam' as the optimizer in this project.
@@ -183,6 +189,24 @@ The code is listed here:
 model.compile(optimizer='adam', loss='mean_squared_error')
 history = model.fit(X, y, batch_size=256, nb_epoch=15, verbose=1, validation_split=0.2)
 ````
+
+#### 4.2 Training using `model.fit_generator()`
+
+To deal with relatively big data, `model.fit_generator()` is needed. It reads and trains the data batch by batch with the controllable memory using, which is crucial for practical problems in industry.
+
+The model using fig_generator() can be found in [model_using_fit_generator.py](model_using_fit_generator.py), most of the hyperparameters keep the same with those in 4.1. 
+
+The training code snippet is listed below:
+
+```python
+model.compile(optimizer='adam', loss='mean_squared_error')
+history = model.fit_generator(generator=batch_generator(X_train_names, y_train, batch_size=256),
+                              samples_per_epoch=38400,
+                              nb_epoch=15,
+                              verbose=1,
+                              validation_data=batch_generator(X_validation_names, y_validation, batch_size=256),
+                              nb_val_samples=9728)
+```
 
 **Validation & Evaluation**
 
@@ -211,6 +235,7 @@ After training, this model successfully drove the car on both of the tracks by i
 +-- X.data.npy - The training data saved from data.py
 +-- y.data.npy - The training data saved from data.py
 +-- model.py - The script used to create and train the model.
++-- model_using_fit_generator - The script used to create and train the model.
 +-- drive.py - The script to drive the car.
 +-- model.json - The model architecture saved from Keras.
 +-- model.h5 - The model weights saved from Keras.
