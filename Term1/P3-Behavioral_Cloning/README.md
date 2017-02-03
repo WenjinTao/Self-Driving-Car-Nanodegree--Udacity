@@ -248,3 +248,5 @@ Track 2:
 #### 6.4 Extra Reference
 
 [Practical Recommendations for Gradient-Based Training of Deep Architectures](https://arxiv.org/pdf/1206.5533.pdf)
+
+[Using Data Generator](https://github.com/fchollet/keras/issues/1627)
