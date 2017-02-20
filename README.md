@@ -6,7 +6,7 @@
   - [x] P2: [Traffic Sign Classifier](Term1/P2-Traffic_Sign_Classifier/Traffic_Sign_Classifier-WenjinTao.ipynb)
   - [x] P3: [Behavioral Cloning](Term1/P3-Behavioral_Cloning)
   - [x] P4: [Advanced Lane Finding](Term1/P4-Advanced_Lane_Finding)
-  - [ ] P5: [Vehicle Detection](Term1/P4-Vehicle_Detection)
+  - [ ] P5: [Vehicle Detection](Term1/P5-Vehicle_Detection)
 - Term 2
   - [ ] P1   
   - [ ] P2
