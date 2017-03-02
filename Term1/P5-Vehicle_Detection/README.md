@@ -20,27 +20,66 @@ The goal of this project is to write a software pipeline to detect vehicles in a
 [image5]: ./output_images/06.png
 [image6]: ./output_images/01.png
 [image7]: ./output_images/07.png
-## 2. Histogram of Oriented Gradients (HOG)
+[image8]: ./output_images/car_histograms.png
+[image9]: ./output_images/notcar_histograms.png
+[image10]: ./output_images/color_space_rgb.png
+[image11]: ./output_images/color_space_ycrcb.png
+[image12]: ./output_images/image0000.png
+[image13]: ./output_images/extra1.png
+[image14]: ./output_images/color_space_rgb_notcar.png
+[image15]: ./output_images/color_space_ycrcb_notcar.png
+[image16]: ./output_images/hog_03.png
+[image17]: ./output_images/hog_04.png
 
-#### 2.1. Extracting HOG features from the training images
+## 2. Feature Extraction
 
-The code for this step is contained in the 4th code cell of the IPython notebook.  
-
+***Color spatial features***, ***histogram features*** and ***Histogram of  HOG features*** were used in this project, they were combined together to generate the feature vector for the classifier. 
 I started by reading in all the `vehicle` and `non-vehicle` images.  Here is a few examples of the `vehicle` and `non-vehicle` classes:
 
 ![alt text][image1]
 
+
+#### 2.1. Color Histogram Features 
+
+Color histogram features extraction is looking at histograms of pixel intensity at each channel (color histograms) as features. The features from three channels were concatenated to form a feature vector. The following two images show the color histogram features of a car image and a background image, respectively.
+
+![alt text][image8]
+
+![alt text][image9]
+
+#### 2.2. Color Spaces
+
+It may be easier to locate clusters of colors that correspond to the cars/notcars in other color spaces rather than the original 'RGB' space. Here shows an example of plotting the pixels in different color space, from where we can notice the different clustering effects.
+
+| Car/not (64x64) |     RGB      |    YCrCb     |
+| :-------------: | :----------: | :----------: |
+|  ![][image12]   | ![][image10] | ![][image11] |
+|  ![][image13]   | ![][image14] | ![][image15] |
+
+#### 2.3. Spatial Binning of Color
+
+Spatial binning can be performed to reduce the complexity and retain enough information at the same time, which will improve the efficiency in searching for cars. `cv2.resize()` can be used to scale down the resolution of an image and then `ravel()` can be used to create the feature vector.
+
+#### 2.4. Extracting HOG features from the training images
+
+The code for this step is contained in the 4th code cell of the IPython notebook.  
+
+
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
-Here is an example using the `RGB` color space and HOG parameters of `orientations=6`, `pixels_per_cell=(8, 8)` , `cells_per_block=(2, 2)`, `hog_channel=0`, `spatial_size=(16, 16)` and `hist_bins=16`:
+Here is several examples using the `YCrCb` color space and HOG parameters of `orientations=9`, `pixels_per_cell=(8, 8)` , `cells_per_block=(2, 2)`, `hog_channel=0`, `spatial_size=(16, 16)` and `hist_bins=16`:
 
 ![alt text][image2]
 
 ![alt text][image3]
 
-#### 2.2 Choosing parameters.
+![][image16]
 
-I tried various combinations of parameters and choose them as follows:
+![][image17]
+
+#### 2.5 Choosing parameters
+
+After some trial and error, I chose the parameters as follows because of they can achieve good classifying results and acceptable training efficiency:
 
 ```python
 global color_space, orient, pix_per_cell, cell_per_block, hog_channel
@@ -61,9 +100,18 @@ hog_feat = True # HOG features on or off
 
 
 
-####2.3 Training a classifier using SVM
+##3. Training a classifier using SVM
 
-The data was spited into training and testing data using `train_test_split( )`.  
+Data normalization was implemented before I fed the SVM classifier. This was done by using:
+
+```python
+# Fit a per-column scaler
+X_scaler = StandardScaler().fit(X)
+# Apply the scaler to X
+scaled_X = X_scaler.transform(X)
+```
+
+Then the data was spited into training and testing data using `train_test_split( )`.  20% of the data was reserved for testing.
 
 ```python
 # Split up data into randomized training and test sets
@@ -96,19 +144,21 @@ joblib.dump(svc, 'model_svc.pkl')
 print('Saved model to disk')
 ```
 
+Finally, the test accuracy of this SVM =  **0.9938**, which I think is a good starting point for implementing the vehicle detection pipeline.
 
 
-##3. Sliding Window Search
 
-####3.1 Search windows
+##4. Sliding Window Search
 
-I chose two scales (1.5 and 2) to resize the original image and window size of 64x64, to implement the sliding window search. The two kinds of scales and corresponding windows are shown in the following two images.
+####4.1 Search windows
+
+I chose two scales (1.5 and 2) to resize the original image and window size of 64x64, to implement the sliding window search (i.e. window size of 96x96 and 128x128). The two kinds of scales and corresponding windows are shown in the following two images.
 
 ![alt text][image4]
 
 ![alt text][image5]
 
-####3.2 Test the pipeline on a single image
+####4.2 Test the pipeline on a single image
 
 Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here is an example image:
 
@@ -117,9 +167,9 @@ Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spat
 
 ---
 
-## 4. Video Implementation
+## 5. Video Implementation
 
-####4.1 False positives filtering & Bounding boxes overlapping 
+####5.1 False positives filtering & Bounding boxes overlapping 
 
 ```python
 # Define a class to record the heatmap of each frame
@@ -136,7 +186,7 @@ Here are six frames and their detected results, the blue rectangles show the pos
 
 
 
-####4.2 Test the pipeline on videos
+####5.2 Test the pipeline on videos
 
 The pipeline was implemented on 'test_video' and 'project_video'. It performed reasonably well on both of the videos. The bounding boxes are relatively stable in most of the video frames. One false postive occurs at the beginning of 'project_video'. 
 
@@ -151,9 +201,21 @@ The processed video can be found here:
 
 ---
 
-##5. Discussion
+##6. Discussion
 
 During the implementation of this project, there are several aspects that I'm still considering how to improve.
 
 - **Computational Efficiency**: HOG features extraction is the most time consuming part in the whole pipeline, which might be the bottleneck if we deploy the pipeline for real-time vehicle detection. So how to improve the computational efficiency is my further direction.
 - **False Positive** :  How to reject false positive is another critical problem. I find that most of the false positive detections occur at the lane's region. So my idea is building a color filter for lane's region. Before running the car detection routine, filtering the lane's pixels away, which might be helpful for rejecting false positive. It also can be used to accurately define the ROI for searching windows, which will further improve the searching efficiency.
+
+----
+
+## 7. References
+
+| Topic                          | Links                                    |
+| ------------------------------ | ---------------------------------------- |
+| Histogram of oriented gradient | [1](http://www.learnopencv.com/histogram-of-oriented-gradients/), [2](http://www.pyimagesearch.com/2014/11/10/histogram-oriented-gradients-object-detection/) |
+| Classifiers                    | [Comparison](https://www.quora.com/What-are-the-advantages-of-different-classification-algorithms), [SVM](https://pdfs.semanticscholar.org/fb6b/a3944cf1e534f665bc86075e0af2d2337eb9.pdf) |
+| Confusion matrix               | [1](https://en.wikipedia.org/wiki/Confusion_matrix), [2](http://notmatthancock.github.io/2015/10/28/confusion-matrix.html), [3: in sklearn](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html) |
+| Sliding window algorithm       | [1](http://www.pyimagesearch.com/2015/03/23/sliding-windows-for-object-detection-with-python-and-opencv/) |
+
