@@ -8,7 +8,7 @@
   - [x] P4: [Advanced Lane Finding](Term1/P4-Advanced_Lane_Finding)
   - [x] P5: [Vehicle Detection](Term1/P5-Vehicle_Detection)
 - Term 2
-  - [ ] P1: [Extended_Kalman_Filter](Term2/P1-Extended_Kalman_Filter)   
+  - [ ] P1: [Extended_Kalman_Filters](Term2/P1-Extended_Kalman_Filters)   
   - [ ] P2
   - [ ] P3 
   - [ ] P4
