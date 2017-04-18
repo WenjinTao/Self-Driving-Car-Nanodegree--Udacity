@@ -55,14 +55,13 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	TODO:
 	* update the state by using Extended Kalman Filter equations
 	*/
-	//KF measurement update step
+	// KF measurement update step
 	double px = x_(0);
 	double py = x_(1);
 	double vx = x_(2);
 	double vy = x_(3);
 
-	// Map state into measurement space
-	// In this case, cartesian to polar coordinates
+	// cartesian to polar
 	double rho = sqrt(px*px + py*py);
 	double phi = atan2(py,px);
 	
