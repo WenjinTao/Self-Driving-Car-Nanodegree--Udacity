@@ -9,7 +9,7 @@
   - [x] P5: [Vehicle Detection](Term1/P5-Vehicle_Detection)
 - Term 2
   - [ ] P1: [Extended_Kalman_Filters](Term2/P1-Extended_Kalman_Filters)   
-  - [ ] P2
+  - [ ] P2: [Unscented_Kalman_Filters](Term2/P2-Unscented_Kalman_Filters)
   - [ ] P3 
   - [ ] P4
 - Term 3

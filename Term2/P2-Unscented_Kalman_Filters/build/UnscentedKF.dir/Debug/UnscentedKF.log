@@ -1,0 +1,14 @@
+﻿  Building Custom Rule C:/D/UD-SDC/Term2/CarND-Unscented-Kalman-Filter-Project/CMakeLists.txt
+  CMake does not need to re-run because C:/D/UD-SDC/Term2/CarND-Unscented-Kalman-Filter-Project/build/CMakeFiles/generate.stamp is up-to-date.
+cl : Command line warning D9002: ignoring unknown option '-std=c++0x'
+  ukf.cpp
+  main.cpp
+C:\D\UD-SDC\Term2\CarND-Unscented-Kalman-Filter-Project\src\main.cpp(195): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\D\UD-SDC\Term2\CarND-Unscented-Kalman-Filter-Project\src\main.cpp(196): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\D\UD-SDC\Term2\CarND-Unscented-Kalman-Filter-Project\src\main.cpp(210): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\D\UD-SDC\Term2\CarND-Unscented-Kalman-Filter-Project\src\main.cpp(211): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\D\UD-SDC\Term2\CarND-Unscented-Kalman-Filter-Project\src\main.cpp(212): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\D\UD-SDC\Term2\CarND-Unscented-Kalman-Filter-Project\src\main.cpp(213): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  tools.cpp
+  Generating Code...
+  UnscentedKF.vcxproj -> C:\D\UD-SDC\Term2\CarND-Unscented-Kalman-Filter-Project\build\Debug\UnscentedKF.exe
